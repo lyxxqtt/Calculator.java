@@ -12,29 +12,27 @@ public class Main {
                 System.out.println("+, -, *, /");
                 String expression = lyx.nextLine();
 
-                double result = evaluateExpression(expression);
+                double result = lyxEvaluateExpression(expression);
 
                 System.out.println("Result: " + result);
             } catch (Exception e) {
                 System.out.println("Error: Invalid expression. Please enter a valid mathematical expression.");
             }
 
-            String choice = askToContinue(lyx);
+            String choice = lyxAskToContinue(lyx);
             if (choice.equalsIgnoreCase("no")) {
                 System.out.println("Thanks 4 using maem >.<");
                 break;
             } else if (choice.equalsIgnoreCase("yes")) {
-                clearPreviousInput();
+                lyxClearPreviousInput();
                 continue;
             } else {
                 System.out.println("Error: Please enter 'yes' or 'no' only.");
             }
         }
-
-        lyx.close();  
     }
 
-    private static String askToContinue(Scanner lyx) {
+    private static String lyxAskToContinue(Scanner lyx) {
         String choice = "";
         while (true) {
             System.out.print("Would you like to evaluate another expression? (yes/no): ");
@@ -48,13 +46,12 @@ public class Main {
         return choice;
     }
 
-    private static void clearPreviousInput() {
-        // Clears previous input and result
-        System.out.print("\033[H\033[2J"); // This will clear the terminal screen
-        System.out.flush();  // Ensures the clear command works across all terminals
+    private static void lyxClearPreviousInput() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();  
     }
 
-    private static double evaluateExpression(String expression) {
+    private static double lyxEvaluateExpression(String expression) {
         expression = expression.replaceAll(" ", "");
 
         Stack<Double> numbers = new Stack<>();
@@ -73,8 +70,8 @@ public class Main {
                 numbers.push(Double.parseDouble(num.toString()));
             }
             else if (currentChar == '+' || currentChar == '-' || currentChar == '*' || currentChar == '/') {
-                while (!operators.isEmpty() && hasPrecedence(currentChar, operators.peek())) {
-                    numbers.push(applyOperator(operators.pop(), numbers.pop(), numbers.pop()));
+                while (!operators.isEmpty() && lyxHasPrecedence(currentChar, operators.peek())) {
+                    numbers.push(lyxApplyOperator(operators.pop(), numbers.pop(), numbers.pop()));
                 }
                 operators.push(currentChar);
                 i++;
@@ -84,13 +81,13 @@ public class Main {
         }
 
         while (!operators.isEmpty()) {
-            numbers.push(applyOperator(operators.pop(), numbers.pop(), numbers.pop()));
+            numbers.push(lyxApplyOperator(operators.pop(), numbers.pop(), numbers.pop()));
         }
 
         return numbers.pop();
     }
 
-    private static double applyOperator(char operator, double b, double a) {
+    private static double lyxApplyOperator(char operator, double b, double a) {
         switch (operator) {
             case '+':
                 return a + b;
@@ -108,7 +105,7 @@ public class Main {
         }
     }
 
-    private static boolean hasPrecedence(char current, char stackTop) {
+    private static boolean lyxHasPrecedence(char current, char stackTop) {
         if (stackTop == '+' || stackTop == '-') {
             return current == '*' || current == '/';
         }
